@@ -1,0 +1,245 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Cursor Rules v2 for Lazy Daisy - Nuxt 3 + DaisyUI + Tailwind CSS Project
+
+## Project Overview
+
+This is a Nuxt 3 project using DaisyUI components with Tailwind CSS for styling. The project is designed for creating micro-projects with a consistent stack.
+
+## Technology Stack
+
+- **Framework**: Nuxt 3 (Vue 3)
+- **Styling**: Tailwind CSS v4 + DaisyUI
+- **Build Tool**: Vite
+- **Language**: TypeScript
+- **Linting**: ESLint + Prettier
+- **Package Manager**: npm 
+
+## Code Style & Conventions
+
+### Vue/Nuxt Components
+
+- Use Vue 3 Composition API with `<script setup>` syntax
+- Always Use TypeScript for type safety
+- Use auto-imports provided by Nuxt (no need to import Vue composables)
+- Follow Vue 3 best practices and conventions
+- Follow nuxt3 best practices
+- Use `defineProps()` and `defineEmits()` for component communication
+
+### Component Structure
+
+```vue
+<template>
+  <!-- Template content -->
+</template>
+
+<script setup lang="ts">
+// Component logic
+</script>
+
+<style scoped>
+/* Component styles */
+</style>
+```
+
+### Styling Guidelines
+
+- **Primary**: Use Tailwind CSS utility classes
+- **Components**: Leverage DaisyUI pre-built components
+- **Custom CSS**: Only when Tailwind/DaisyUI doesn't provide what you need
+- **Responsive**: Use Tailwind's responsive prefixes (sm:, md:, lg:, xl:)
+- **Dark Mode**: DaisyUI handles dark/light themes automatically
+- **CSS Variables**: Use DaisyUI's CSS custom properties for theming
+
+### DaisyUI Components
+
+- Use DaisyUI component classes (e.g., `btn`, `card`, `modal`, `navbar`)
+- Follow DaisyUI naming conventions
+- Leverage DaisyUI's theme system for consistent styling
+- Use semantic color classes (primary, secondary, accent, etc.)
+- Implement proper component variants (size, color, state)
+
+### File Naming & Organization
+
+- **Pages**: Use kebab-case in `pages/` directory
+- **Components**: Use PascalCase in `components/` directory
+- **Composables**: Use camelCase in `composables/` directory
+- **Utils**: Use camelCase in `utils/` directory
+- **Types**: Use PascalCase with `.types.ts` extension
+- **Layouts**: Use kebab-case in `layouts/` directory
+- **Middleware**: Use kebab-case in `middleware/` directory
+
+### TypeScript Guidelines
+
+- Use strict TypeScript configuration
+- Define interfaces for component props
+- Use type inference when possible
+- Prefer `interface` over `type` for object shapes
+- Use `const assertions` for immutable data
+- Implement proper generic types for reusable components
+
+### State Management
+
+- Use Nuxt's built-in state management with `useState()`
+- For complex state, consider Pinia (if added to project)
+- Keep state close to where it's used
+- Use `useCookie()` for persistent client-side state
+- Implement proper reactive patterns with `ref()` and `reactive()`
+
+### API & Data Fetching
+
+- Use Nuxt's `$fetch` for API calls
+- Implement proper error handling
+- Use `useAsyncData()` for server-side data fetching
+- Cache data appropriately with `useLazyFetch()` when needed
+- Use `useFetch()` for simple data fetching
+- Implement proper loading states and error boundaries
+
+### Performance Best Practices
+
+- Use lazy loading for components when appropriate
+- Implement proper image optimization with Nuxt Image
+- Use `v-show` instead of `v-if` for frequently toggled elements
+- Leverage Nuxt's auto-imports to reduce bundle size
+- Use `defineAsyncComponent()` for code splitting
+- Implement proper memoization with `computed()`
+
+### Testing
+
+- Use `@nuxt/test-utils` for component testing
+- Write unit tests for composables
+- Test user interactions and component behavior
+- Use Vitest for unit testing
+- Implement integration tests for critical user flows
+- Use Playwright for E2E testing (if needed)
+
+### Development Workflow
+
+- Use `npm run dev` for development
+- Use `npm run build` for production builds
+- Use `npm run preview` to test production builds locally
+- Follow ESLint and Prettier configurations
+- Use `npm run lint` to check code quality
+- Implement proper Git hooks with Husky (if needed)
+
+### Code Quality
+
+- Write self-documenting code with clear variable names
+- Add JSDoc comments for complex functions
+- Keep components focused and single-purpose
+- Extract reusable logic into composables
+- Use proper error boundaries and error handling
+- Implement proper logging and debugging
+
+### Accessibility
+
+- Use semantic HTML elements
+- Include proper ARIA attributes
+- Ensure keyboard navigation works
+- Test with screen readers
+- Implement proper focus management
+- Use proper color contrast ratios
+- Provide alternative text for images
+
+### Security
+
+- Sanitize user inputs
+- Use HTTPS in production
+- Implement proper authentication if needed
+- Follow OWASP security guidelines
+- Use proper CORS configuration
+- Implement rate limiting for API endpoints
+- Use environment variables for sensitive data
+
+## Project-Specific Rules
+
+### Micro-Project Focus
+
+- Keep components simple and focused
+- Avoid over-engineering
+- Use DaisyUI components to speed up development
+- Maintain consistency across micro-projects
+- Focus on rapid prototyping and iteration
+- Keep dependencies minimal and focused
+
+### File Structure Preferences
+
+```
+├── components/          # Reusable Vue components
+├── composables/         # Vue composables
+├── pages/              # Nuxt pages (auto-routed)
+├── layouts/            # Layout components
+├── middleware/         # Route middleware
+├── server/             # Server-side API routes
+├── utils/              # Utility functions
+├── types/              # TypeScript type definitions
+├── assets/             # Static assets
+└── public/             # Public static files
+```
+
+### Common Patterns
+
+- Use DaisyUI's card components for content containers
+- Implement responsive navigation with DaisyUI navbar
+- Use DaisyUI's modal system for dialogs
+- Leverage DaisyUI's form components for user input
+- Use DaisyUI's alert components for notifications
+- Implement proper loading states with DaisyUI spinners
+- Use DaisyUI's badge components for status indicators
+
+### Error Handling
+
+- Implement proper error boundaries
+- Use try-catch blocks for async operations
+- Provide user-friendly error messages
+- Log errors appropriately
+- Use proper error states in UI components
+- Implement retry mechanisms for failed requests
+- Use proper error codes and messages
+
+### Documentation
+
+- Document complex business logic
+- Add README files for major features
+- Keep component props documented
+- Update this file as the project evolves
+- Use JSDoc for function documentation
+- Maintain API documentation
+- Document deployment procedures
+
+### SEO & Meta
+
+- Use Nuxt's built-in SEO features
+- Implement proper meta tags
+- Use structured data when appropriate
+- Optimize for Core Web Vitals
+- Implement proper sitemap generation
+- Use proper canonical URLs
+
+### Internationalization
+
+- Use Nuxt's i18n module if needed
+- Implement proper locale switching
+- Use proper date and number formatting
+- Support RTL languages if required
+- Use proper pluralization rules
+
+## AI Assistant Guidelines
+
+When helping with this project:
+
+- Suggest DaisyUI components when appropriate
+- Use Tailwind CSS utilities for styling
+- Follow Nuxt 3 conventions and best practices
+- Prioritize simplicity and maintainability
+- Consider the micro-project nature of the codebase
+- Suggest TypeScript types for better type safety
+- Recommend composables for reusable logic
+- Focus on rapid development and iteration
+- Suggest proper error handling patterns
+- Recommend performance optimizations
+- Suggest accessibility improvements
+- Recommend security best practices
