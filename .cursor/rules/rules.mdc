@@ -3,243 +3,510 @@ description:
 globs: 
 alwaysApply: true
 ---
-# Cursor Rules v2 for Lazy Daisy - Nuxt 3 + DaisyUI + Tailwind CSS Project
+# Strict Nuxt 3 + DaisyUI Development Rules
 
-## Project Overview
+## Project Standards
 
-This is a Nuxt 3 project using DaisyUI components with Tailwind CSS for styling. The project is designed for creating micro-projects with a consistent stack.
+This document defines **MANDATORY** development standards for Nuxt 3 projects using DaisyUI. All rules marked with ❌ are **BREAKING** violations that must be fixed before code review approval.
 
-## Technology Stack
+## Technology Stack (NON-NEGOTIABLE)
 
-- **Framework**: Nuxt 3 (Vue 3)
-- **Styling**: Tailwind CSS v4 + DaisyUI
-- **Build Tool**: Vite
-- **Language**: TypeScript
-- **Linting**: ESLint + Prettier
-- **Package Manager**: npm 
+- **Framework**: Nuxt 3.x (Vue 3) - ❌ NO Vue 2 or Nuxt 2
+- **Styling**: Tailwind CSS v4 + DaisyUI - ❌ NO custom CSS frameworks
+- **Build Tool**: Vite - ❌ NO Webpack overrides
+- **Language**: TypeScript STRICT mode - ❌ NO JavaScript files
+- **Linting**: ESLint + Prettier (mandatory configs) - ❌ NO disabled rules
+- **Package Manager**: npm ONLY - ❌ NO yarn/pnpm/bun
 
-## Code Style & Conventions
+## Mandatory Code Standards
 
-### Vue/Nuxt Components
-
-- Use Vue 3 Composition API with `<script setup>` syntax
-- Always Use TypeScript for type safety
-- Use auto-imports provided by Nuxt (no need to import Vue composables)
-- Follow Vue 3 best practices and conventions
-- Follow nuxt3 best practices
-- Use `defineProps()` and `defineEmits()` for component communication
-
-### Component Structure
+### Vue/Nuxt Components (STRICT)
 
 ```vue
+<!-- ✅ REQUIRED STRUCTURE -->
 <template>
-  <!-- Template content -->
+  <!-- MANDATORY: Semantic HTML with proper ARIA -->
+  <main role="main" aria-label="Page content">
+    <!-- Content here -->
+  </main>
 </template>
 
 <script setup lang="ts">
-// Component logic
+// ❌ FORBIDDEN: Any non-TypeScript code
+// ✅ REQUIRED: Composition API ONLY
+// ✅ REQUIRED: defineProps/defineEmits with TypeScript interfaces
+
+interface Props {
+  title: string // ❌ NO optional props without defaults
+  count?: number // ✅ OK with default value below
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  count: 0
+})
+
+// ✅ REQUIRED: JSDoc for all composables/functions
+/**
+ * Handles user interaction
+ * @param value - The input value to process
+ * @returns Processed result
+ */
+const handleAction = (value: string): string => {
+  return value.trim()
+}
 </script>
 
 <style scoped>
-/* Component styles */
+/* ❌ FORBIDDEN: Custom CSS without justification */
+/* ✅ ONLY allowed for DaisyUI theme overrides */
 </style>
 ```
 
-### Styling Guidelines
+### File Naming (ZERO TOLERANCE)
 
-- **Primary**: Use Tailwind CSS utility classes
-- **Components**: Leverage DaisyUI pre-built components
-- **Custom CSS**: Only when Tailwind/DaisyUI doesn't provide what you need
-- **Responsive**: Use Tailwind's responsive prefixes (sm:, md:, lg:, xl:)
-- **Dark Mode**: DaisyUI handles dark/light themes automatically
-- **CSS Variables**: Use DaisyUI's CSS custom properties for theming
-
-### DaisyUI Components
-
-- Use DaisyUI component classes (e.g., `btn`, `card`, `modal`, `navbar`)
-- Follow DaisyUI naming conventions
-- Leverage DaisyUI's theme system for consistent styling
-- Use semantic color classes (primary, secondary, accent, etc.)
-- Implement proper component variants (size, color, state)
-
-### File Naming & Organization
-
-- **Pages**: Use kebab-case in `pages/` directory
-- **Components**: Use PascalCase in `components/` directory
-- **Composables**: Use camelCase in `composables/` directory
-- **Utils**: Use camelCase in `utils/` directory
-- **Types**: Use PascalCase with `.types.ts` extension
-- **Layouts**: Use kebab-case in `layouts/` directory
-- **Middleware**: Use kebab-case in `middleware/` directory
-
-### TypeScript Guidelines
-
-- Use strict TypeScript configuration
-- Define interfaces for component props
-- Use type inference when possible
-- Prefer `interface` over `type` for object shapes
-- Use `const assertions` for immutable data
-- Implement proper generic types for reusable components
-
-### State Management
-
-- Use Nuxt's built-in state management with `useState()`
-- For complex state, consider Pinia (if added to project)
-- Keep state close to where it's used
-- Use `useCookie()` for persistent client-side state
-- Implement proper reactive patterns with `ref()` and `reactive()`
-
-### API & Data Fetching
-
-- Use Nuxt's `$fetch` for API calls
-- Implement proper error handling
-- Use `useAsyncData()` for server-side data fetching
-- Cache data appropriately with `useLazyFetch()` when needed
-- Use `useFetch()` for simple data fetching
-- Implement proper loading states and error boundaries
-
-### Performance Best Practices
-
-- Use lazy loading for components when appropriate
-- Implement proper image optimization with Nuxt Image
-- Use `v-show` instead of `v-if` for frequently toggled elements
-- Leverage Nuxt's auto-imports to reduce bundle size
-- Use `defineAsyncComponent()` for code splitting
-- Implement proper memoization with `computed()`
-
-### Testing
-
-- Use `@nuxt/test-utils` for component testing
-- Write unit tests for composables
-- Test user interactions and component behavior
-- Use Vitest for unit testing
-- Implement integration tests for critical user flows
-- Use Playwright for E2E testing (if needed)
-
-### Development Workflow
-
-- Use `npm run dev` for development
-- Use `npm run build` for production builds
-- Use `npm run preview` to test production builds locally
-- Follow ESLint and Prettier configurations
-- Use `npm run lint` to check code quality
-- Implement proper Git hooks with Husky (if needed)
-
-### Code Quality
-
-- Write self-documenting code with clear variable names
-- Add JSDoc comments for complex functions
-- Keep components focused and single-purpose
-- Extract reusable logic into composables
-- Use proper error boundaries and error handling
-- Implement proper logging and debugging
-
-### Accessibility
-
-- Use semantic HTML elements
-- Include proper ARIA attributes
-- Ensure keyboard navigation works
-- Test with screen readers
-- Implement proper focus management
-- Use proper color contrast ratios
-- Provide alternative text for images
-
-### Security
-
-- Sanitize user inputs
-- Use HTTPS in production
-- Implement proper authentication if needed
-- Follow OWASP security guidelines
-- Use proper CORS configuration
-- Implement rate limiting for API endpoints
-- Use environment variables for sensitive data
-
-## Project-Specific Rules
-
-### Micro-Project Focus
-
-- Keep components simple and focused
-- Avoid over-engineering
-- Use DaisyUI components to speed up development
-- Maintain consistency across micro-projects
-- Focus on rapid prototyping and iteration
-- Keep dependencies minimal and focused
-
-### File Structure Preferences
+❌ **INSTANT REJECTION** for incorrect naming:
 
 ```
-├── components/          # Reusable Vue components
-├── composables/         # Vue composables
-├── pages/              # Nuxt pages (auto-routed)
-├── layouts/            # Layout components
-├── middleware/         # Route middleware
-├── server/             # Server-side API routes
-├── utils/              # Utility functions
-├── types/              # TypeScript type definitions
-├── assets/             # Static assets
-└── public/             # Public static files
+✅ CORRECT:
+pages/user-profile.vue
+components/UserCard.vue
+composables/useUserData.ts
+types/User.types.ts
+middleware/auth.ts
+layouts/default.vue
+
+❌ WRONG (INSTANT FAIL):
+pages/userProfile.vue
+components/userCard.vue
+composables/user-data.ts
+types/user.ts
+middleware/Auth.ts
+layouts/Default.vue
 ```
 
-### Common Patterns
+### TypeScript Rules (MANDATORY)
 
-- Use DaisyUI's card components for content containers
-- Implement responsive navigation with DaisyUI navbar
-- Use DaisyUI's modal system for dialogs
-- Leverage DaisyUI's form components for user input
-- Use DaisyUI's alert components for notifications
-- Implement proper loading states with DaisyUI spinners
-- Use DaisyUI's badge components for status indicators
+```typescript
+// ✅ REQUIRED: Strict interfaces for ALL props
+interface UserCardProps {
+  readonly user: User // ❌ NO mutable props
+  readonly variant?: 'primary' | 'secondary' // ✅ Literal types
+  readonly onClick?: (id: string) => void // ✅ Proper function types
+}
 
-### Error Handling
+// ❌ FORBIDDEN: any, unknown without proper type guards
+// ❌ FORBIDDEN: Non-null assertions (!.) without comments
+// ❌ FORBIDDEN: Type assertions (as) without justification
 
-- Implement proper error boundaries
-- Use try-catch blocks for async operations
-- Provide user-friendly error messages
-- Log errors appropriately
-- Use proper error states in UI components
-- Implement retry mechanisms for failed requests
-- Use proper error codes and messages
+// ✅ REQUIRED: Proper error handling
+interface ApiResponse<T> {
+  readonly data: T
+  readonly error: string | null
+  readonly loading: boolean
+}
 
-### Documentation
+// ✅ REQUIRED: Generic constraints
+interface Repository<T extends Record<string, unknown>> {
+  findById(id: string): Promise<T | null>
+}
+```
 
-- Document complex business logic
-- Add README files for major features
-- Keep component props documented
-- Update this file as the project evolves
-- Use JSDoc for function documentation
-- Maintain API documentation
-- Document deployment procedures
+## Styling Rules (ZERO FLEXIBILITY)
 
-### SEO & Meta
+### DaisyUI Usage (MANDATORY)
 
-- Use Nuxt's built-in SEO features
-- Implement proper meta tags
-- Use structured data when appropriate
-- Optimize for Core Web Vitals
-- Implement proper sitemap generation
-- Use proper canonical URLs
+```vue
+<!-- ✅ REQUIRED: Use DaisyUI semantic classes -->
+<button class="btn btn-primary btn-lg">
+  Submit
+</button>
 
-### Internationalization
+<!-- ❌ FORBIDDEN: Custom button styles -->
+<button class="px-4 py-2 bg-blue-500 rounded">
+  Submit
+</button>
 
-- Use Nuxt's i18n module if needed
-- Implement proper locale switching
-- Use proper date and number formatting
-- Support RTL languages if required
-- Use proper pluralization rules
+<!-- ✅ REQUIRED: DaisyUI responsive patterns -->
+<div class="card card-compact lg:card-normal">
+  <div class="card-body">
+    <h2 class="card-title">Title</h2>
+    <p>Content</p>
+  </div>
+</div>
+```
+
+### CSS Custom Properties (STRICT USAGE)
+
+```css
+/* ✅ ONLY allowed DaisyUI overrides */
+:root {
+  --rounded-box: 0.5rem; /* DaisyUI variable override */
+}
+
+/* ❌ FORBIDDEN: Custom CSS properties */
+:root {
+  --my-custom-color: #ff0000; /* INSTANT FAIL */
+}
+```
+
+## File Organization (ENFORCED)
+
+```
+project/
+├── components/
+│   ├── ui/              # ✅ REQUIRED: DaisyUI wrappers only
+│   │   ├── BaseButton.vue
+│   │   └── BaseCard.vue
+│   ├── features/        # ✅ REQUIRED: Feature components
+│   │   ├── UserProfile.vue
+│   │   └── ProductList.vue
+│   └── layout/          # ✅ REQUIRED: Layout components
+│       ├── AppHeader.vue
+│       └── AppSidebar.vue
+├── composables/         # ✅ REQUIRED: use* prefix
+│   ├── useAuth.ts
+│   ├── useApi.ts
+│   └── useLocalStorage.ts
+├── types/               # ✅ REQUIRED: *.types.ts suffix
+│   ├── User.types.ts
+│   ├── Api.types.ts
+│   └── index.ts         # ✅ REQUIRED: Re-export all types
+├── utils/               # ✅ REQUIRED: Pure functions only
+│   ├── validation.ts
+│   ├── formatting.ts
+│   └── constants.ts
+└── server/              # ✅ REQUIRED: API routes
+    └── api/
+        ├── users.get.ts
+        └── auth.post.ts
+```
+
+## State Management (RIGID RULES)
+
+```typescript
+// ✅ REQUIRED: Nuxt useState with TypeScript
+const user = useState<User | null>('auth.user', () => null)
+
+// ✅ REQUIRED: Composable pattern for complex state
+export const useUserStore = () => {
+  const user = useState<User | null>('user', () => null)
+  
+  const setUser = (newUser: User): void => {
+    user.value = newUser
+  }
+  
+  const clearUser = (): void => {
+    user.value = null
+  }
+  
+  return {
+    user: readonly(user),
+    setUser,
+    clearUser
+  }
+}
+
+// ❌ FORBIDDEN: Direct state mutation
+// ❌ FORBIDDEN: Vuex/Pinia without justification
+// ❌ FORBIDDEN: localStorage without type safety
+```
+
+## API & Data Fetching (MANDATORY PATTERNS)
+
+```typescript
+// ✅ REQUIRED: Typed API responses
+interface ApiError {
+  readonly message: string
+  readonly code: number
+  readonly details?: Record<string, unknown>
+}
+
+interface ApiSuccess<T> {
+  readonly data: T
+  readonly meta?: {
+    readonly total: number
+    readonly page: number
+  }
+}
+
+type ApiResponse<T> = ApiSuccess<T> | ApiError
+
+// ✅ REQUIRED: Error handling wrapper
+export const useApiCall = async <T>(
+  endpoint: string,
+  options?: RequestInit
+): Promise<ApiResponse<T>> => {
+  try {
+    const response = await $fetch<T>(endpoint, options)
+    return { data: response }
+  } catch (error) {
+    return {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      code: 500
+    }
+  }
+}
+
+// ❌ FORBIDDEN: Unhandled API errors
+// ❌ FORBIDDEN: Non-typed fetch responses
+// ❌ FORBIDDEN: Missing loading states
+```
+
+## Performance Requirements (MEASURABLE)
+
+### Bundle Size Limits (ENFORCED)
+- ❌ Initial JS bundle > 250KB (gzipped)
+- ❌ Route chunks > 100KB (gzipped)  
+- ❌ CSS bundle > 50KB (gzipped)
+- ❌ Lighthouse Performance Score < 90
+
+### Code Splitting (MANDATORY)
+```typescript
+// ✅ REQUIRED: Lazy load non-critical components
+const LazyChart = defineAsyncComponent(() => import('~/components/Chart.vue'))
+
+// ✅ REQUIRED: Route-level code splitting
+definePageMeta({
+  layout: 'dashboard',
+  middleware: 'auth'
+})
+```
+
+## Testing Requirements (NON-NEGOTIABLE)
+
+### Coverage Thresholds (ENFORCED)
+- ❌ Overall coverage < 80%
+- ❌ Function coverage < 85%
+- ❌ Branch coverage < 75%
+- ❌ Line coverage < 85%
+
+### Required Tests
+```typescript
+// ✅ REQUIRED: Unit tests for all composables
+describe('useUserData', () => {
+  it('should fetch user data correctly', async () => {
+    // Test implementation
+  })
+  
+  it('should handle errors gracefully', async () => {
+    // Error handling test
+  })
+})
+
+// ✅ REQUIRED: Component tests for user interactions
+// ✅ REQUIRED: E2E tests for critical user flows
+```
+
+## Security Rules (ZERO TOLERANCE)
+
+### Input Validation (MANDATORY)
+```typescript
+// ✅ REQUIRED: Zod validation for all inputs
+import { z } from 'zod'
+
+const UserSchema = z.object({
+  email: z.string().email(),
+  age: z.number().min(0).max(120),
+  name: z.string().min(1).max(50)
+})
+
+// ❌ FORBIDDEN: Direct user input without validation
+// ❌ FORBIDDEN: innerHTML with user content
+// ❌ FORBIDDEN: Non-sanitized dynamic routes
+```
+
+### Environment Variables (STRICT)
+```typescript
+// ✅ REQUIRED: Runtime config for all env vars
+export default defineNuxtConfig({
+  runtimeConfig: {
+    // Private keys (server-side only)
+    apiSecret: process.env.API_SECRET,
+    public: {
+      // Public keys (exposed to client)
+      apiBase: process.env.PUBLIC_API_BASE
+    }
+  }
+})
+
+// ❌ FORBIDDEN: process.env in components
+// ❌ FORBIDDEN: Secrets in client-side code
+```
+
+## Accessibility Standards (ENFORCED)
+
+### Required ARIA Implementation
+```vue
+<!-- ✅ REQUIRED: Proper ARIA labels -->
+<button 
+  class="btn btn-primary"
+  :aria-label="buttonLabel"
+  :aria-describedby="descriptionId"
+  @click="handleClick"
+>
+  {{ buttonText }}
+</button>
+
+<!-- ✅ REQUIRED: Form accessibility -->
+<label for="email" class="label">
+  <span class="label-text">Email *</span>
+</label>
+<input 
+  id="email"
+  type="email"
+  class="input input-bordered"
+  required
+  :aria-invalid="hasError"
+  :aria-describedby="hasError ? 'email-error' : undefined"
+>
+<div v-if="hasError" id="email-error" class="text-error text-sm">
+  Please enter a valid email
+</div>
+```
+
+### Mandatory Accessibility Checks
+- ❌ Color contrast ratio < 4.5:1
+- ❌ Missing alt text for images
+- ❌ Keyboard navigation broken
+- ❌ Screen reader issues
+- ❌ Missing focus indicators
+
+## Documentation Requirements (MANDATORY)
+
+### Code Documentation (ENFORCED)
+```typescript
+/**
+ * ✅ REQUIRED: JSDoc for all exported functions
+ * Fetches user data from the API with caching
+ * 
+ * @param userId - The unique identifier for the user
+ * @param options - Optional fetch configuration
+ * @returns Promise resolving to user data or null
+ * @throws {ApiError} When the API request fails
+ * 
+ * @example
+ * ```typescript
+ * const user = await fetchUser('123', { cache: false })
+ * ```
+ */
+export const fetchUser = async (
+  userId: string,
+  options: FetchOptions = {}
+): Promise<User | null> => {
+  // Implementation
+}
+
+// ❌ FORBIDDEN: Exported functions without JSDoc
+// ❌ FORBIDDEN: Complex logic without comments
+```
+
+### Component Documentation (REQUIRED)
+```vue
+<!--
+✅ REQUIRED: Component documentation header
+/**
+ * UserProfileCard - Displays user information in a card format
+ * 
+ * @component
+ * @example
+ * <UserProfileCard 
+ *   :user="currentUser" 
+ *   variant="compact"
+ *   @edit="handleEdit"
+ * />
+ */
+-->
+<template>
+  <!-- Component implementation -->
+</template>
+```
+
+## Development Workflow (ENFORCED)
+
+### Pre-commit Hooks (MANDATORY)
+```json
+{
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run type-check",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{vue,ts,js}": ["eslint --fix", "prettier --write"],
+    "*.vue": ["vue-tsc --noEmit"]
+  }
+}
+```
+
+### Commit Message Format (ENFORCED)
+```
+type(scope): description
+
+feat(auth): add OAuth2 authentication
+fix(ui): resolve button loading state issue
+docs(readme): update installation instructions
+test(api): add user validation tests
+refactor(components): extract common button logic
+```
+
+❌ **INSTANT REJECTION** for non-compliant commits
+
+### Code Review Checklist (MANDATORY)
+
+Before approval, verify:
+- [ ] ✅ All TypeScript errors resolved
+- [ ] ✅ ESLint passes with zero warnings
+- [ ] ✅ Prettier formatting applied
+- [ ] ✅ Test coverage meets thresholds
+- [ ] ✅ Performance budgets not exceeded
+- [ ] ✅ Accessibility requirements met
+- [ ] ✅ Security rules followed
+- [ ] ✅ Documentation updated
+- [ ] ✅ Component naming conventions followed
+- [ ] ✅ DaisyUI components used appropriately
+
+## Emergency Overrides
+
+**ONLY** for critical production fixes:
+
+```typescript
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const emergencyFix: any = data
+// TODO: Remove emergency override - Ticket #1234
+// Approved by: [Tech Lead Name]
+// Date: [Date]
+// Reason: [Critical production issue description]
+```
+
+❌ **ALL** overrides must have associated tickets and approval
 
 ## AI Assistant Guidelines
 
-When helping with this project:
+When working on this project, you MUST:
 
-- Suggest DaisyUI components when appropriate
-- Use Tailwind CSS utilities for styling
-- Follow Nuxt 3 conventions and best practices
-- Prioritize simplicity and maintainability
-- Consider the micro-project nature of the codebase
-- Suggest TypeScript types for better type safety
-- Recommend composables for reusable logic
-- Focus on rapid development and iteration
-- Suggest proper error handling patterns
-- Recommend performance optimizations
-- Suggest accessibility improvements
-- Recommend security best practices
+1. **ENFORCE** all mandatory rules without exception
+2. **REJECT** any suggestions that violate these standards
+3. **ALWAYS** use DaisyUI components over custom CSS
+4. **REQUIRE** TypeScript interfaces for all props/data
+5. **IMPLEMENT** proper error handling in all code
+6. **INCLUDE** accessibility attributes in all UI elements
+7. **SUGGEST** performance optimizations when applicable
+8. **VALIDATE** naming conventions in all suggestions
+9. **PROVIDE** JSDoc comments for all functions
+10. **ENSURE** responsive design with DaisyUI utilities
+
+### Automatic Rejections
+Immediately reject requests for:
+- JavaScript instead of TypeScript
+- Custom CSS frameworks
+- Disabled ESLint rules
+- Non-semantic HTML
+- Missing error handling
+- Hardcoded strings (use i18n)
+- Direct DOM manipulation
+- Unsafe HTML rendering
+
+---
+
+**Remember**: These rules exist to maintain code quality, security, and accessibility. Every rule has a purpose and should be followed without exception.
